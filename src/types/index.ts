@@ -10,6 +10,10 @@ export interface Winner {
     time: number
 }
 
+export interface WinnerWithCar extends Winner {
+    car: Car
+}
+
 export interface EngineResponse {
     velocity: number
     distance: number
@@ -18,7 +22,6 @@ export interface EngineResponse {
 export interface DriveResponse {
     success: boolean
 }
-
 
 export interface PaginationParams {
     page: number
@@ -59,4 +62,12 @@ export interface GetCarsResponse {
 export interface GetWinnersResponse {
     winners: Winner[]
     totalCount: number
+}
+
+export interface CarRaceState {
+    id: number
+    isStarted: boolean
+    isDriving: boolean
+    position: number
+    animationId?: number
 }
