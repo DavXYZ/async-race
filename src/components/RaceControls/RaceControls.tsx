@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { startRace } from '../../redux/slices/raceSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { startRace } from '@/redux/slices/raceSlice';
 
 import styles from './RaceControls.module.css';
 

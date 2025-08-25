@@ -1,9 +1,9 @@
 import type React from 'react';
 import { useEffect } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { fetchWinners, setCurrentPage, setSorting } from '../../redux/slices/winnersSlice';
-import { API_CONFIG } from '../../api/constants';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { fetchWinners, setCurrentPage, setSorting } from '@/redux/slices/winnersSlice';
+import { API_CONFIG } from '@/api/constants';
 import WinnersTable from '../../components/WinnersTable/WinnersTable';
 import Pagination from '../../components/Pagination/Pagination';
 

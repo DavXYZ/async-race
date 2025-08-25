@@ -2,7 +2,7 @@
 
 import type React from 'react';
 
-import type { WinnerWithCar } from '../../types';
+import type { WinnerWithCar } from '@/types';
 import CarSvg from '../../assets/svg/CarSvg';
 
 import styles from './WinnersTable.module.css';

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 
-import { engineApi } from '../../api';
+import { engineApi } from '@/api';
 
 export type CarState = {
   id: number;

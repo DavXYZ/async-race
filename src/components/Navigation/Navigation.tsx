@@ -1,7 +1,7 @@
 import type React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import logoPng from '../../assets/logo.png';
+import logoPng from '@/assets/logo.png';
 
 import styles from './Navigation.module.css';
 

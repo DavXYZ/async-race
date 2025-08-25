@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useState, useEffect } from 'react';
 
-import CarSvg from '../../assets/svg/CarSvg';
+import CarSvg from '@/assets/svg/CarSvg';
 
 import styles from './CarForm.module.css';
 

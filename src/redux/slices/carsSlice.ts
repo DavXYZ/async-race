@@ -1,13 +1,7 @@
-import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, type PayloadAction} from '@reduxjs/toolkit';
 
-import type {
-  Car,
-  CreateCarRequest,
-  UpdateCarRequest,
-  PaginationParams,
-  CarsState,
-} from '../../types';
-import { carsApi } from '../../api';
+import type {Car, CarsState, CreateCarRequest, PaginationParams, UpdateCarRequest,} from '@/types';
+import {carsApi} from '@/api';
 
 const initialState: CarsState = {
   cars: [],
@@ -19,20 +13,17 @@ const initialState: CarsState = {
 };
 
 export const fetchCars = createAsyncThunk('cars/fetchCars', async (params?: PaginationParams) => {
-  const response = await carsApi.getCars(params);
-  return response;
+    return await carsApi.getCars(params);
 });
 
 export const createCar = createAsyncThunk('cars/createCar', async (carData: CreateCarRequest) => {
-  const car = await carsApi.createCar(carData);
-  return car;
+    return await carsApi.createCar(carData);
 });
 
 export const updateCar = createAsyncThunk(
   'cars/updateCar',
   async ({ id, carData }: { id: number; carData: UpdateCarRequest }) => {
-    const car = await carsApi.updateCar(id, carData);
-    return car;
+      return await carsApi.updateCar(id, carData);
   }
 );
 
@@ -45,9 +36,7 @@ export const createRandomCars = createAsyncThunk('cars/createRandomCars', async 
   const { generateRandomCars } = await import('../../api');
   const randomCars = generateRandomCars(count);
 
-  const createdCars = await Promise.all(randomCars.map((carData) => carsApi.createCar(carData)));
-
-  return createdCars;
+  return await Promise.all(randomCars.map((carData) => carsApi.createCar(carData)));
 });
 
 const carsSlice = createSlice({

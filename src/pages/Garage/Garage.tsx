@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   fetchCars,
   createCar,
@@ -10,14 +10,14 @@ import {
   createRandomCars,
   setCurrentPage,
   selectCar,
-} from '../../redux/slices/carsSlice';
-import { API_CONFIG } from '../../api/constants';
+} from '@/redux/slices/carsSlice';
+import { API_CONFIG } from '@/api/constants';
 import CarForm from '../../components/CarForm/CarForm';
 import RaceControls from '../../components/RaceControls/RaceControls';
 import CarItem from '../../components/CarItem/CarItem';
 import Pagination from '../../components/Pagination/Pagination';
 import WinnerModal from '../../components/WinnerModal/WinnerModal';
-import { resetRace } from '../../redux/slices/raceSlice';
+import { resetRace } from '@/redux/slices/raceSlice';
 
 import styles from './Garage.module.css';
 

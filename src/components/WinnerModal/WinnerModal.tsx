@@ -1,8 +1,8 @@
 import type React from 'react';
 import {useEffect, useState} from 'react';
 
-import type {Car} from '../../types';
-import CarSvg from '../../assets/svg/CarSvg';
+import type {Car} from '@/types';
+import CarSvg from '@/assets/svg/CarSvg';
 
 import styles from './WinnerModal.module.css';
 

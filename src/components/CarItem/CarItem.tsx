@@ -1,19 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import {
-  startEngine,
-  stopEngine,
-  drive,
-  setCarAnimationId,
-  finishCar,
-  stopRace,
-} from '../../redux/slices/raceSlice';
-import type { CarState } from '../../redux/slices/raceSlice';
-import CarSvg from '../../assets/svg/CarSvg';
-import BrokenCarSvg from '../../assets/svg/BrokenCarSvg';
-import type { Car } from '../../types';
-import { saveWinner } from '../../redux/slices/winnersSlice';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
+import type {CarState} from '@/redux/slices/raceSlice';
+import {drive, finishCar, setCarAnimationId, startEngine, stopEngine, stopRace,} from '@/redux/slices/raceSlice';
+import CarSvg from '@/assets/svg/CarSvg';
+import BrokenCarSvg from '@/assets/svg/BrokenCarSvg';
+import type {Car} from '@/types';
+import {saveWinner} from '@/redux/slices/winnersSlice';
 
 import styles from './CarItem.module.css';
 
@@ -60,8 +53,7 @@ const CarItem: React.FC<CarItemProps> = ({
       const driveAction = await dispatch(drive(carInfo.id)).unwrap();
 
       if (driveAction.success && carRef.current) {
-        const roadWidth = carRef.current.parentElement?.offsetWidth || 500;
-        const distancePx = roadWidth;
+          const distancePx = carRef.current.parentElement?.offsetWidth || 500;
         const duration = (engineAction.distance / engineAction.velocity) * 1000;
         const startTime = performance.now();
 
