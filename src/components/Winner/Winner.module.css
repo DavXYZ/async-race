@@ -1,115 +1,115 @@
 .winner {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    min-height: 80vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  min-height: 80vh;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #2d3748;
-    margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
 }
 
 .winnersCount {
-    font-size: 1.1rem;
-    color: #4a5568;
-    font-weight: 500;
+  font-size: 1.1rem;
+  color: #4a5568;
+  font-weight: 500;
 }
 
 .count {
-    color: #d69e2e;
-    font-weight: 700;
-    font-size: 1.2rem;
+  color: #d69e2e;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 
 .error {
-    background: #fed7d7;
-    color: #c53030;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid #feb2b2;
+  background: #fed7d7;
+  color: #c53030;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #feb2b2;
 }
 
 .content {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .loading {
-    text-align: center;
-    padding: 3rem;
-    color: #718096;
-    font-size: 1.1rem;
+  text-align: center;
+  padding: 3rem;
+  color: #718096;
+  font-size: 1.1rem;
 }
 
 .empty {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: #718096;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #718096;
 }
 
 .emptyIcon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
+  font-size: 4rem;
+  margin-bottom: 1rem;
 }
 
 .empty h3 {
-    font-size: 1.5rem;
-    color: #4a5568;
-    margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
 }
 
 .empty p {
-    font-size: 1rem;
-    line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {
-    .winner {
-        padding: 1rem;
-    }
+  .winner {
+    padding: 1rem;
+  }
 
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    .title {
-        font-size: 2rem;
-    }
+  .title {
+    font-size: 2rem;
+  }
 
-    .empty {
-        padding: 2rem 1rem;
-    }
+  .empty {
+    padding: 2rem 1rem;
+  }
 
-    .emptyIcon {
-        font-size: 3rem;
-    }
+  .emptyIcon {
+    font-size: 3rem;
+  }
 }
 
 @media (max-width: 500px) {
-    .title {
-        font-size: 1.75rem;
-    }
+  .title {
+    font-size: 1.75rem;
+  }
 
-    .winnersCount {
-        font-size: 1rem;
-    }
+  .winnersCount {
+    font-size: 1rem;
+  }
 
-    .count {
-        font-size: 1.1rem;
-    }
+  .count {
+    font-size: 1.1rem;
+  }
 }

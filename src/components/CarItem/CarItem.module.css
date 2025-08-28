@@ -1,145 +1,147 @@
 .carItem {
-    position: relative;
-    margin-bottom: 30px;
-    padding: 20px;
-    border-radius: 16px;
-    background: linear-gradient(145deg, #2c2c2c, #242424);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    overflow: hidden;
+  position: relative;
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #2c2c2c, #242424);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .carItem:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
 .carItem.selected {
-    background: linear-gradient(145deg, #3a3a5c, #2c2c4a);
-    box-shadow: 0 0 0 2px #646cff, 0 8px 24px rgba(100, 108, 255, 0.3);
+  background: linear-gradient(145deg, #3a3a5c, #2c2c4a);
+  box-shadow:
+    0 0 0 2px #646cff,
+    0 8px 24px rgba(100, 108, 255, 0.3);
 }
 
 .animateFadeIn {
-    animation: fadeIn 0.5s ease-out;
+  animation: fadeIn 0.5s ease-out;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-
 .road {
-    position: relative;
-    height: 80px;
-    background: #555;
-    border-bottom: 2px dashed #fff;
-    overflow: hidden;
+  position: relative;
+  height: 80px;
+  background: #555;
+  border-bottom: 2px dashed #fff;
+  overflow: hidden;
 }
 
 .car {
-    position: absolute;
-    left: 0;
-    bottom: 10px;
-    width: 100px;
-    height: 50px;
-    transition: transform 0.1s linear;
-    z-index: 10;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  width: 100px;
+  height: 50px;
+  transition: transform 0.1s linear;
+  z-index: 10;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
 }
 
 .carDriving {
-    animation: carBounce 0.5s infinite alternate;
+  animation: carBounce 0.5s infinite alternate;
 }
 
 @keyframes carBounce {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(-3px);
-    }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-3px);
+  }
 }
 
 .button {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none !important;
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
 }
 
 .button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .controls {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.startBtn, .stopBtn {
-    padding: 5px 15px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-weight: bold;
+.startBtn,
+.stopBtn {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .startBtn {
-    background-color: #4CAF50;
-    color: white;
+  background-color: #4caf50;
+  color: white;
 }
 
 .stopBtn {
-    background-color: #f44336;
-    color: white;
+  background-color: #f44336;
+  color: white;
 }
 
 .carDetails {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .carName {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
 }
 
 .carId {
-    font-size: 12px;
-    color: #aaa;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 4px 8px;
-    border-radius: 4px;
+  font-size: 12px;
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .colorBadge {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
