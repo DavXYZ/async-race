@@ -1,9 +1,9 @@
 import type React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import styles from './Navigation.module.css';
-
 import logoPng from '../../assets/logo.png';
+
+import styles from './Navigation.module.css';
 
 const Navigation: React.FC = () => {
   return (
