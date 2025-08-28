@@ -1,5 +1,7 @@
+import type { JSX } from 'react';
+
 import styles from './CarSvg.module.css';
-const CarSvg = ({ color }: { color: string }) => (
+const CarSvg = ({ color }: { color: string }): JSX.Element => (
   <div className={styles.car}>
     <svg
       version="1.0"

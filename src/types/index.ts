@@ -83,3 +83,22 @@ export interface WinnersState {
   error: string | null;
 }
 
+export type GarageUIProps = {
+  cars: Car[];
+  totalCount: number;
+  currentPage: number;
+  loading: boolean;
+  error: string | null;
+  selectedCar: Car | null;
+  winner: Car | undefined;
+  isEditing: boolean;
+
+  onCreateCar: (name: string, color: string) => Promise<void>;
+  onUpdateCar: (name: string, color: string) => Promise<void>;
+  onSelectCar: (carId: number) => void;
+  onDeleteCar: (carId: number) => Promise<void>;
+  onGenerateRandomCars: () => Promise<void>;
+  onPageChange: (page: number) => void;
+  onCancelEdit: () => void;
+  onCloseWinnerModal: () => void;
+};

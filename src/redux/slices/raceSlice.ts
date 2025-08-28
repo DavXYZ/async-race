@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 
-import { engineApi } from '@/api';
+import { engineApi } from '../../api';
 
 export type CarState = {
   id: number;
@@ -74,9 +74,14 @@ const raceSlice = createSlice({
         state.winnerId = action.payload.id;
       }
     },
-    resetRace(state) {
+    resetRace: (state) => {
+      state.isRacing = false;
       state.carsState.forEach((car) => {
-        if (car.animationId) cancelAnimationFrame(car.animationId);
+        if (car.animationId) {
+          cancelAnimationFrame(car.animationId);
+          car.animationId = undefined;
+        }
+        car.time = undefined;
       });
       state.carsState = [];
       state.isRacing = false;
@@ -93,7 +98,7 @@ const raceSlice = createSlice({
         drive.fulfilled,
         (state, action: PayloadAction<{ id: number; success: boolean }>) => {
           const car = state.carsState.find((c) => c.id === action.payload.id);
-            if (car && !action.payload.success && car.animationId) {
+          if (car && !action.payload.success && car.animationId) {
             cancelAnimationFrame(car.animationId);
             car.animationId = undefined;
           }

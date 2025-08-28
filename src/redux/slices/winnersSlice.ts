@@ -29,7 +29,7 @@ export const fetchWinners = createAsyncThunk(
         try {
           const car = await carsApi.getCar(winner.id);
           return { ...winner, car };
-        } catch (error) {
+        } catch {
           return {
             ...winner,
             car: { id: winner.id, name: 'Unknown Car', color: '#cccccc' },
@@ -79,13 +79,12 @@ export const saveWinner = createAsyncThunk(
       const winner = await winnersApi.updateWinner(carId, updatedData);
       const car = await carsApi.getCar(winner.id);
       return { ...winner, car };
-    } catch (error) {
+    } catch {
       const newWinnerData: CreateWinnerRequest = {
         id: carId,
         wins: 1,
         time,
       };
-
       const winner = await winnersApi.createWinner(newWinnerData);
       const car = await carsApi.getCar(winner.id);
       return { ...winner, car };

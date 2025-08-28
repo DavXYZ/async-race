@@ -1,45 +1,34 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 
 import styles from './Pagination.module.css';
+import { createPageRange } from './paginationHelpers';
+import type { PaginationProps } from './pagination_types';
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
+const PageButton = ({
+  page,
+  onPageChange,
+  currentPage,
+}: {
+  page: number;
   onPageChange: (page: number) => void;
-}
+  currentPage: number;
+}): JSX.Element => (
+  <button
+    onClick={() => onPageChange(page)}
+    className={`${styles.button} ${currentPage === page ? styles.active : ''}`}
+  >
+    {page}
+  </button>
+);
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
-  const getVisiblePages = () => {
-    const delta = 2;
-    const range = [];
-    const rangeWithDots = [];
-
-    for (
-      let i = Math.max(2, currentPage - delta);
-      i <= Math.min(totalPages - 1, currentPage + delta);
-      i++
-    ) {
-      range.push(i);
-    }
-
-    if (currentPage - delta > 2) {
-      rangeWithDots.push(1, '...');
-    } else {
-      rangeWithDots.push(1);
-    }
-
-    rangeWithDots.push(...range);
-
-    if (currentPage + delta < totalPages - 1) {
-      rangeWithDots.push('...', totalPages);
-    } else {
-      rangeWithDots.push(totalPages);
-    }
-
-    return rangeWithDots;
-  };
-
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}): JSX.Element | null => {
   if (totalPages <= 1) return null;
+
+  const visiblePages = createPageRange(currentPage, totalPages);
 
   return (
     <div className={styles.pagination}>
@@ -51,20 +40,15 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
         Previous
       </button>
 
-      {getVisiblePages().map((page, index) => (
-        <React.Fragment key={index}>
-          {page === '...' ? (
-            <span className={styles.dots}>...</span>
-          ) : (
-            <button
-              onClick={() => onPageChange(page as number)}
-              className={`${styles.button} ${currentPage === page ? styles.active : ''}`}
-            >
-              {page}
-            </button>
-          )}
-        </React.Fragment>
-      ))}
+      {visiblePages.map((p, i) =>
+        p === '...' ? (
+          <span key={i} className={styles.dots}>
+            ...
+          </span>
+        ) : (
+          <PageButton key={i} page={p} onPageChange={onPageChange} currentPage={currentPage} />
+        )
+      )}
 
       <button
         onClick={() => onPageChange(currentPage + 1)}

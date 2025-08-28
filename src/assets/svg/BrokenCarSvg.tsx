@@ -1,6 +1,7 @@
-import styles from './BrokenCar.module.css';
+import type { JSX } from 'react';
 
-const BrokenCarSvg = ({ color }: { color: string }) => {
+import styles from './BrokenCar.module.css';
+const BrokenCarSvg = ({ color }: { color: string }): JSX.Element => {
   return (
     <div className={styles.container}>
       <svg

@@ -1,21 +1,18 @@
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { startRace } from '@/redux/slices/raceSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { resetRace, startRace } from '../../redux/slices/raceSlice';
 
 import styles from './RaceControls.module.css';
-
-interface RaceControlsProps {
-  onGenerateRandomCars: () => void;
-  disabled: boolean;
-}
+import type { RaceControlsProps } from './race_controls_types';
 
 const RaceControls: React.FC<RaceControlsProps> = ({ onGenerateRandomCars, disabled }) => {
   const dispatch = useAppDispatch();
   const isRacing = useAppSelector((state) => state.race.isRacing);
-
-  const handleStartRace = () => {
+  const handleStartRace: () => void = () => {
     dispatch(startRace());
   };
-
+  const handleResetRace: () => void = () => {
+    dispatch(resetRace());
+  };
   return (
     <div className={styles.controls}>
       <h3 className={styles.title}>Race Controls</h3>
@@ -31,7 +28,7 @@ const RaceControls: React.FC<RaceControlsProps> = ({ onGenerateRandomCars, disab
         <button
           className={`${styles.button} ${styles.reset}`}
           disabled={!isRacing}
-          onClick={() => window.location.reload()}
+          onClick={handleResetRace}
         >
           Reset Race
         </button>

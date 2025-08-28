@@ -1,10 +1,11 @@
-import type React from 'react';
-import { useState, useEffect } from 'react';
-
-import CarSvg from '@/assets/svg/CarSvg';
+import React from 'react';
+import { Formik, Form, type FormikHelpers } from 'formik';
+import * as Yup from 'yup';
 
 import styles from './CarForm.module.css';
-
+import CarNameField from './CarNameField';
+import CarColorField from './CarColorField';
+import CarFormButtons from './CarFormButtons';
 interface CarFormProps {
   onSubmit: (name: string, color: string) => void;
   initialName?: string;
@@ -13,6 +14,18 @@ interface CarFormProps {
   onCancel?: () => void;
 }
 
+interface FormValues {
+  name: string;
+  color: string;
+}
+
+const CAR_NAME_MAX_LENGTH = 50;
+
+const validationSchema = Yup.object({
+  name: Yup.string().trim().required('Car name is required').max(CAR_NAME_MAX_LENGTH),
+  color: Yup.string().required('Color is required'),
+});
+
 const CarForm: React.FC<CarFormProps> = ({
   onSubmit,
   initialName = '',
@@ -20,91 +33,35 @@ const CarForm: React.FC<CarFormProps> = ({
   isEditing = false,
   onCancel,
 }) => {
-  const [name, setName] = useState(initialName);
-  const [color, setColor] = useState(initialColor);
-
-  useEffect(() => {
-    setName(initialName);
-    setColor(initialColor);
-  }, [initialName, initialColor]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (name.trim().length === 0) {
-      alert('Car name cannot be empty');
-      return;
-    }
-    if (name.trim().length > 50) {
-      alert('Car name is too long (max 50 characters)');
-      return;
-    }
-    onSubmit(name.trim(), color);
-    if (!isEditing) {
-      setName('');
-      setColor('#FF6B6B');
-    }
-  };
-
-  const handleCancel = () => {
-    setName('');
-    setColor('#FF6B6B');
-    onCancel?.();
-  };
+  const initialValues: FormValues = { name: initialName, color: initialColor };
 
   return (
     <div className={styles.formContainer}>
       <h3 className={styles.formTitle}>{isEditing ? 'Update Car' : 'Create New Car'}</h3>
-
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.inputGroup}>
-          <label htmlFor="carName" className={styles.label}>
-            Car Name
-          </label>
-          <input
-            id="carName"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter car name..."
-            className={styles.input}
-            maxLength={50}
-          />
-        </div>
-
-        <div className={styles.inputGroup}>
-          <label htmlFor="carColor" className={styles.label}>
-            Car Color
-          </label>
-          <div className={styles.colorInputContainer}>
-            <input
-              id="carColor"
-              type="color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              className={styles.colorInput}
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
+          onSubmit(values.name.trim(), values.color);
+          if (!isEditing) resetForm();
+        }}
+        enableReinitialize
+      >
+        {({ values, setFieldValue }) => (
+          <Form className={styles.form}>
+            <CarNameField maxLength={CAR_NAME_MAX_LENGTH} />
+            <CarColorField color={values.color} setFieldValue={setFieldValue} />
+            <CarFormButtons
+              isEditing={isEditing}
+              resetFields={() => {
+                setFieldValue('name', initialName);
+                setFieldValue('color', initialColor);
+                onCancel?.();
+              }}
             />
-            <div className={styles.carPreview}>
-              <CarSvg color={color} />
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.buttonGroup}>
-          <button type="submit" className={`${styles.button} ${styles.primary}`}>
-            {isEditing ? 'Update' : 'Create'}
-          </button>
-
-          {isEditing && (
-            <button
-              type="button"
-              onClick={handleCancel}
-              className={`${styles.button} ${styles.secondary}`}
-            >
-              Cancel
-            </button>
-          )}
-        </div>
-      </form>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

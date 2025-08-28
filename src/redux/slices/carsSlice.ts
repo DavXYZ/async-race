@@ -1,7 +1,21 @@
-import {createAsyncThunk, createSlice, type PayloadAction} from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+  type ActionReducerMapBuilder,
+} from '@reduxjs/toolkit';
 
-import type {Car, CarsState, CreateCarRequest, PaginationParams, UpdateCarRequest,} from '@/types';
-import {carsApi} from '@/api';
+import { carsApi } from '../../api';
+import type { Car, CreateCarRequest, UpdateCarRequest, PaginationParams } from '../../types';
+
+interface CarsState {
+  cars: Car[];
+  totalCount: number;
+  currentPage: number;
+  loading: boolean;
+  error: string | null;
+  selectedCar: Car | null;
+}
 
 const initialState: CarsState = {
   cars: [],
@@ -12,32 +26,109 @@ const initialState: CarsState = {
   selectedCar: null,
 };
 
-export const fetchCars = createAsyncThunk('cars/fetchCars', async (params?: PaginationParams) => {
-    return await carsApi.getCars(params);
+export const fetchCars = createAsyncThunk<
+  { cars: Car[]; totalCount: number },
+  PaginationParams | undefined
+>('cars/fetchCars', async (params) => {
+  return await carsApi.getCars(params);
 });
 
-export const createCar = createAsyncThunk('cars/createCar', async (carData: CreateCarRequest) => {
+export const createCar = createAsyncThunk<Car, CreateCarRequest>(
+  'cars/createCar',
+  async (carData) => {
     return await carsApi.createCar(carData);
-});
-
-export const updateCar = createAsyncThunk(
-  'cars/updateCar',
-  async ({ id, carData }: { id: number; carData: UpdateCarRequest }) => {
-      return await carsApi.updateCar(id, carData);
   }
 );
 
-export const deleteCar = createAsyncThunk('cars/deleteCar', async (id: number) => {
+export const updateCar = createAsyncThunk<Car, { id: number; carData: UpdateCarRequest }>(
+  'cars/updateCar',
+  async ({ id, carData }) => {
+    return await carsApi.updateCar(id, carData);
+  }
+);
+
+export const deleteCar = createAsyncThunk<number, number>('cars/deleteCar', async (id) => {
   await carsApi.deleteCar(id);
   return id;
 });
 
-export const createRandomCars = createAsyncThunk('cars/createRandomCars', async (count: number) => {
-  const { generateRandomCars } = await import('../../api');
-  const randomCars = generateRandomCars(count);
+export const createRandomCars = createAsyncThunk<Car[], number>(
+  'cars/createRandomCars',
+  async (count) => {
+    const { generateRandomCars } = await import('../../api');
+    const randomCars = generateRandomCars(count);
+    return await Promise.all(randomCars.map((carData) => carsApi.createCar(carData)));
+  }
+);
 
-  return await Promise.all(randomCars.map((carData) => carsApi.createCar(carData)));
-});
+const handleFetchCars = (builder: ActionReducerMapBuilder<CarsState>): void => {
+  builder
+    .addCase(fetchCars.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(
+      fetchCars.fulfilled,
+      (state, action: PayloadAction<{ cars: Car[]; totalCount: number }>) => {
+        state.loading = false;
+        state.cars = action.payload.cars;
+        state.totalCount = action.payload.totalCount;
+      }
+    )
+    .addCase(fetchCars.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error?.message || 'Failed to fetch cars';
+    });
+};
+
+const handleCreateCar = (builder: ActionReducerMapBuilder<CarsState>): void => {
+  builder
+    .addCase(createCar.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(createCar.fulfilled, (state, action: PayloadAction<Car>) => {
+      state.loading = false;
+      state.cars.push(action.payload);
+      state.totalCount += 1;
+    })
+    .addCase(createCar.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error?.message || 'Failed to create car';
+    });
+};
+
+const handleUpdateCar = (builder: ActionReducerMapBuilder<CarsState>): void => {
+  builder.addCase(updateCar.fulfilled, (state, action: PayloadAction<Car>) => {
+    const index = state.cars.findIndex((car) => car.id === action.payload.id);
+    if (index !== -1) state.cars[index] = action.payload;
+    if (state.selectedCar?.id === action.payload.id) state.selectedCar = action.payload;
+  });
+};
+
+const handleDeleteCar = (builder: ActionReducerMapBuilder<CarsState>): void => {
+  builder.addCase(deleteCar.fulfilled, (state, action: PayloadAction<number>) => {
+    state.cars = state.cars.filter((car) => car.id !== action.payload);
+    state.totalCount -= 1;
+    if (state.selectedCar?.id === action.payload) state.selectedCar = null;
+  });
+};
+
+const handleCreateRandomCars = (builder: ActionReducerMapBuilder<CarsState>): void => {
+  builder
+    .addCase(createRandomCars.pending, (state): void => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(createRandomCars.fulfilled, (state, action: PayloadAction<Car[]>) => {
+      state.loading = false;
+      state.totalCount += action.payload.length;
+    })
+    .addCase(createRandomCars.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error?.message || 'Failed to create random cars';
+    });
+};
 
 const carsSlice = createSlice({
   name: 'cars',
@@ -53,62 +144,12 @@ const carsSlice = createSlice({
       state.error = null;
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchCars.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchCars.fulfilled, (state, action) => {
-        state.loading = false;
-        state.cars = action.payload.cars;
-        state.totalCount = action.payload.totalCount;
-      })
-      .addCase(fetchCars.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to fetch cars';
-      })
-      .addCase(createCar.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createCar.fulfilled, (state, action) => {
-        state.loading = false;
-        state.cars.push(action.payload);
-        state.totalCount += 1;
-      })
-      .addCase(createCar.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to create car';
-      })
-      .addCase(updateCar.fulfilled, (state, action) => {
-        const index = state.cars.findIndex((car) => car.id === action.payload.id);
-        if (index !== -1) {
-          state.cars[index] = action.payload;
-        }
-        if (state.selectedCar?.id === action.payload.id) {
-          state.selectedCar = action.payload;
-        }
-      })
-      .addCase(deleteCar.fulfilled, (state, action) => {
-        state.cars = state.cars.filter((car) => car.id !== action.payload);
-        state.totalCount -= 1;
-        if (state.selectedCar?.id === action.payload) {
-          state.selectedCar = null;
-        }
-      })
-      .addCase(createRandomCars.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createRandomCars.fulfilled, (state, action) => {
-        state.loading = false;
-        state.totalCount += action.payload.length;
-      })
-      .addCase(createRandomCars.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to create random cars';
-      });
+  extraReducers: (builder: ActionReducerMapBuilder<CarsState>) => {
+    handleFetchCars(builder);
+    handleCreateCar(builder);
+    handleUpdateCar(builder);
+    handleDeleteCar(builder);
+    handleCreateRandomCars(builder);
   },
 });
 
