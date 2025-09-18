@@ -1,6 +1,6 @@
 # Async Race - Test Task
 
-**Deployed UI:** [https://async-race-vite-epam.vercel.app](https://async-race-vite-epam.vercel.app)  
+**Deployed UI:** [hhttps://async-race-lyart.vercel.app](https://async-race-lyart.vercel.app)  
 **Score:** 400 / 400
 
 ---
